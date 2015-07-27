@@ -14,3 +14,4 @@ Current features:
 Plans:
 * Firmware to indicate per-bean layout (buttons, displays).
 * Usage of RxJava and EventBus.
+* Libraries AndroidSlidingUpPanel and sdk (of Bean-Android-SDK) to be referred to, instead of included.
