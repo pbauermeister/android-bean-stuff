@@ -61,4 +61,4 @@ android.libraryVariants.all { variant ->
     }
 }
 
-apply from: '../maven-publish.gradle'
+//apply from: '../maven-publish.gradle'
