@@ -1,0 +1,129 @@
+package digital.bauermeister.bean_stuff;
+
+import android.content.Context;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.FrameLayout;
+import android.widget.TextView;
+
+/**
+ * Created by pascal on 7/26/15.
+ */
+public class DeviceView extends FrameLayout {
+    private static final String TAG = "DeviceView";
+    private TextView nameTv;
+    private TextView rssiTv;
+    private TextView connTv;
+    private TextView addrTv;
+    private View bg;
+
+    private Button button1;
+    private CheckBox selectedCb;
+    private Button deleteBtn;
+
+    public DeviceView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        initLayout();
+    }
+
+    public DeviceView(Context context) {
+        super(context);
+        initLayout();
+    }
+
+    private void initLayout() {
+        LayoutInflater.from(getContext()).inflate(R.layout.device_view, this);
+        bg = findViewById(R.id.bg);
+        nameTv = (TextView) findViewById(R.id.name);
+        rssiTv = (TextView) findViewById(R.id.rssi);
+        connTv = (TextView) findViewById(R.id.conn);
+        addrTv = (TextView) findViewById(R.id.addr);
+
+        button1 = (Button) findViewById(R.id.button1);
+        selectedCb = (CheckBox) findViewById(R.id.selectedCb);
+        deleteBtn = (Button) findViewById(R.id.deleteBtn);
+
+    }
+
+    public void init(final Device device,
+                     Boolean conn,
+                     String buttonText,
+                     final Listener listener) {
+
+        final boolean present = device.isPresent();
+        final boolean selected = device.isSelected();
+        Log.d(TAG, "deviceView init() dev --> " + device);
+        Log.d(TAG, "                  sel --> " + selected);
+
+        nameTv.setText(device.getName());
+        rssiTv.setText(present ? "" + device.getRssi() : "---");
+        connTv.setText("" + conn);
+        addrTv.setText(device.getBdAddress());
+
+        selectedCb.setChecked(selected);
+        selectedCb.setEnabled(present);
+
+        selectedCb.setVisibility(present ? VISIBLE : INVISIBLE);
+        deleteBtn.setVisibility(present ? INVISIBLE : VISIBLE);
+
+        bg.setBackgroundResource(present ? R.drawable.device_bg : R.drawable.device_absent_bg);
+
+        button1.setEnabled(present && selected);
+        button1.setVisibility(present ? VISIBLE : INVISIBLE);
+        button1.setText(buttonText);
+
+        selectedCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                button1.setEnabled(present && isChecked);
+                listener.onSelectedChanged(device, isChecked);
+            }
+        });
+
+        button1.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    listener.onButtonDown(device, (Button) v);
+                    return false;
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    listener.onButtonUp(device, (Button) v);
+                    return false;
+                } else return false;
+            }
+        });
+
+        deleteBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onDelete(device);
+            }
+        });
+
+    }
+
+    public Button getButton1() {
+        return button1;
+    }
+
+    public CheckBox getSelectedCheckbox() {
+        return selectedCb;
+    }
+
+
+    public interface Listener {
+        void onSelectedChanged(Device device, boolean selected);
+
+        void onButtonDown(Device device, Button button);
+
+        void onButtonUp(Device device, Button button);
+
+        void onDelete(Device device);
+    }
+}

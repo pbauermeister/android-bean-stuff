@@ -1,0 +1,97 @@
+<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sothree="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/sliding_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="bottom"
+    sothree:umanoPanelHeight="42dp"
+    sothree:umanoParalaxOffset="100dp"
+    sothree:umanoShadowHeight="10dp">
+
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#23b8b9"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/standard_margin"
+        android:paddingRight="@dimen/standard_margin"
+        tools:context=".MainActivity">
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:divider="@null"
+            android:dividerHeight="@dimen/standard_margin"
+            android:paddingBottom="@dimen/standard_margin"
+            android:paddingTop="@dimen/standard_margin"
+            android:scrollbarStyle="outsideOverlay" />
+
+    </LinearLayout>
+
+    <!-- Bottom sliding panel -->
+
+    <LinearLayout
+        android:background="#ffdd76"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp">
+
+        <!-- Grip -->
+
+        <LinearLayout
+            android:layout_width="36dp"
+            android:layout_height="4px"
+            android:layout_gravity="center"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="4dp"
+            android:background="#80b57e41" />
+
+        <LinearLayout
+            android:layout_width="36dp"
+            android:layout_height="4px"
+            android:layout_gravity="center"
+            android:layout_marginBottom="2dp"
+            android:background="#80b57e41" />
+
+        <!-- Last message -->
+
+        <TextView
+            android:id="@+id/lastLogTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lines="1" />
+
+        <!-- Logs -->
+
+        <LinearLayout
+            android:id="@+id/logDetails"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="4dp"
+                android:background="#404040" />
+
+            <ScrollView
+                android:id="@+id/logScroll"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <TextView
+                    android:id="@+id/logTv"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="vertical" />
+            </ScrollView>
+        </LinearLayout>
+    </LinearLayout>
+</com.sothree.slidinguppanel.SlidingUpPanelLayout>

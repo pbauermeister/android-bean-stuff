@@ -1,0 +1,16 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="DeviceFontMain" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textColor">#fefefe</item>
+    </style>
+
+    <style name="DeviceFontSecondary" parent="@android:style/TextAppearance.Small">
+        <item name="android:textColor">#b0b0b0</item>
+    </style>
+
+</resources>

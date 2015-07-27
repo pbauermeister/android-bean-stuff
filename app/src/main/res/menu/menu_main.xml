@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+
+    <item android:id="@+id/action_bt_scan"
+        android:icon="@mipmap/ic_bt_scan_48px"
+        android:title="@string/action_bt_scan"
+        android:showAsAction="always" />
+
+    <item android:id="@+id/action_bt_reset"
+        android:icon="@mipmap/ic_bt_reset_48px"
+        android:title="@string/action_bt_reset"
+        android:showAsAction="always" />
+
+    <item android:id="@+id/action_settings" android:title="@string/action_settings"
+        android:orderInCategory="100" android:showAsAction="never" />
+</menu>

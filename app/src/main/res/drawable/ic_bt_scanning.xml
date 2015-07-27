@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="false">
+
+    <item
+        android:drawable="@mipmap/ic_bt_scanning_01_48px"
+        android:duration="100"/>
+
+    <item
+        android:drawable="@mipmap/ic_bt_scanning_02_48px"
+        android:duration="100"/>
+
+    <item
+        android:drawable="@mipmap/ic_bt_scanning_03_48px"
+        android:duration="100"/>
+
+    <item
+        android:drawable="@mipmap/ic_bt_scanning_04_48px"
+        android:duration="100"/>
+
+    <item
+        android:drawable="@mipmap/ic_bt_scanning_05_48px"
+        android:duration="100"/>
+
+    <item
+        android:drawable="@mipmap/ic_bt_scanning_06_48px"
+        android:duration="100"/>
+
+    <item
+        android:drawable="@mipmap/ic_bt_scanning_07_48px"
+        android:duration="100"/>
+
+    <item
+        android:drawable="@mipmap/ic_bt_scanning_08_48px"
+        android:duration="100"/>
+
+    <item
+        android:drawable="@mipmap/ic_bt_scanning_09_48px"
+        android:duration="100"/>
+
+    <item
+        android:drawable="@mipmap/ic_bt_scanning_10_48px"
+        android:duration="100"/>
+
+    <item
+        android:drawable="@mipmap/ic_bt_scanning_11_48px"
+        android:duration="100"/>
+
+    <item
+        android:drawable="@mipmap/ic_bt_scanning_12_48px"
+        android:duration="100"/>
+
+</animation-list>

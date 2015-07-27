@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Bean Stuff</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <item name="TAG_DEVICE_ITEM" type="id" />
+
+    <string name="action_bt_reset">Reset Bluetooth</string>
+    <string name="action_bt_scan">Scan Bluetooth</string>
+
+</resources>
