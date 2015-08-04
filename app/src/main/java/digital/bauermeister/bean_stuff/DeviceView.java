@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -14,6 +16,8 @@ import android.widget.TextView;
 
 /**
  * Created by pascal on 7/26/15.
+ * <p/>
+ * Manages the visual representation of a device.
  */
 public class DeviceView extends FrameLayout {
     private static final String TAG = "DeviceView";
@@ -21,6 +25,7 @@ public class DeviceView extends FrameLayout {
     private TextView rssiTv;
     private TextView connTv;
     private TextView addrTv;
+    private TextView hintTv;
     private View bg;
 
     private Button button1;
@@ -44,6 +49,7 @@ public class DeviceView extends FrameLayout {
         rssiTv = (TextView) findViewById(R.id.rssi);
         connTv = (TextView) findViewById(R.id.conn);
         addrTv = (TextView) findViewById(R.id.addr);
+        hintTv = (TextView) findViewById(R.id.hint);
 
         button1 = (Button) findViewById(R.id.button1);
         selectedCb = (CheckBox) findViewById(R.id.selectedCb);
@@ -75,8 +81,11 @@ public class DeviceView extends FrameLayout {
         bg.setBackgroundResource(present ? R.drawable.device_bg : R.drawable.device_absent_bg);
 
         button1.setEnabled(present && selected);
-        button1.setVisibility(present ? VISIBLE : INVISIBLE);
+        button1.setVisibility(present && selected ? VISIBLE : GONE);
         button1.setText(buttonText);
+
+        hintTv.setVisibility(!present || !selected ? VISIBLE : GONE);
+        hintTv.setText(!present ? R.string.label_hint_absent : R.string.label_hint_unselected);
 
         selectedCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -102,20 +111,34 @@ public class DeviceView extends FrameLayout {
         deleteBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onDelete(device);
+                delete(device);
             }
         });
 
     }
 
-    public Button getButton1() {
-        return button1;
-    }
+    private void delete(final Device device) {
+        DeviceDatabase.INSTANCE.removeDevice(device);
 
-    public CheckBox getSelectedCheckbox() {
-        return selectedCb;
+//        final ScaleAnimation shrinkAnim = new ScaleAnimation(1.15f, 1.0f, 1.15f, 1.0f);
+//        shrinkAnim.setDuration(2000);
+//        shrinkAnim.setAnimationListener(new Animation.AnimationListener() {
+//            @Override
+//            public void onAnimationStart(Animation animation) {
+//            }
+//
+//            @Override
+//            public void onAnimationRepeat(Animation animation) {
+//            }
+//
+//            @Override
+//            public void onAnimationEnd(Animation animation) {
+//                DeviceDatabase.INSTANCE.removeDevice(device);
+//            }
+//        });
+//        setAnimation(shrinkAnim);
+//        shrinkAnim.start();
     }
-
 
     public interface Listener {
         void onSelectedChanged(Device device, boolean selected);
@@ -124,6 +147,5 @@ public class DeviceView extends FrameLayout {
 
         void onButtonUp(Device device, Button button);
 
-        void onDelete(Device device);
     }
 }

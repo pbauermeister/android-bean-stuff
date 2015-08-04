@@ -11,6 +11,8 @@ import java.util.Date;
 
 /**
  * Created by pascal on 7/26/15.
+ *
+ * Logging facility, feeding both the system logs, and the log panel.
  */
 public class Log2 {
     private static TextView summaryTv;

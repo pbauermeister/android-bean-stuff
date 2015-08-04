@@ -11,6 +11,10 @@ import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by pascal on 7/22/15.
+ * <p/>
+ * Model of a device, that is stored in DB.
+ * <p/>
+ * A device represents the what we know of a Bean.
  */
 public class Device extends RealmObject {
 

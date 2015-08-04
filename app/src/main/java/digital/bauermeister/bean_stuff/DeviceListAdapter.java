@@ -12,6 +12,9 @@ import com.punchthrough.bean.sdk.Bean;
 import io.realm.RealmBaseAdapter;
 import io.realm.RealmResults;
 
+/**
+ * Adapter used by the ListView to display Devices, and backed by the RealmDB database.
+ */
 public class DeviceListAdapter extends RealmBaseAdapter<Device> implements ListAdapter {
     private static final String TAG = "DeviceListAdapter";
 
@@ -65,7 +68,7 @@ public class DeviceListAdapter extends RealmBaseAdapter<Device> implements ListA
 
         Log.d(TAG, "makeView() --> " + device);
 
-        final String initialLabel = "PUSH AND HOLD";
+        final String initialLabel = context.getResources().getString(R.string.label_pushbutton);
         viewHolder.itemView.init(
                 device,
                 bean == null ? false : bean.isConnected(),
@@ -74,7 +77,6 @@ public class DeviceListAdapter extends RealmBaseAdapter<Device> implements ListA
                     @Override
                     public void onSelectedChanged(Device device, boolean selected) {
                         DeviceDatabase.INSTANCE.updateDeviceSelected(device, selected);
-//                        notifyDataSetChanged();
                     }
 
                     @Override
@@ -88,11 +90,6 @@ public class DeviceListAdapter extends RealmBaseAdapter<Device> implements ListA
                         Log2.d(TAG, "Button released");
                         deviceAction.doOffAction(device);
                         button.setText(initialLabel);
-                    }
-
-                    @Override
-                    public void onDelete(Device device) {
-                        DeviceDatabase.INSTANCE.removeDevice(device);
                     }
                 }
         );

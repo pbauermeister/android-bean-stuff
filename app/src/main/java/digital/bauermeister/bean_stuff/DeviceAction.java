@@ -8,6 +8,9 @@ import com.punchthrough.bean.sdk.message.BeanError;
 import com.punchthrough.bean.sdk.message.LedColor;
 import com.punchthrough.bean.sdk.message.ScratchBank;
 
+/**
+ * Actions that can be performed (by the user) on a device.
+ */
 public class DeviceAction {
 
     private static final String TAG = "DeviceAction";
@@ -90,7 +93,11 @@ public class DeviceAction {
             if (!bean.isConnected()) {
                 Log2.i(TAG, "Connecting to " + device.getName() + "...");
                 handler.onChange();
-                bean.connect(context, beanListener);
+                try {
+                    bean.connect(context, beanListener);
+                } catch (Exception e) {
+                    Log2.i(TAG, "Connecting to " + device.getName() + " FAILED");
+                }
             } else {
                 action.doAction(bean, device);
             }

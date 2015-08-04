@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Bean Stuff</string>
 
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
     <item name="TAG_DEVICE_ITEM" type="id" />
@@ -11,5 +10,11 @@
 
     <string name="label_no_device">No Bean detected.\n
         \nPlease check that Beans are in range, and scan again.</string>
+
+    <string name="label_pushbutton">PUSH AND HOLD</string>
+
+    <string name="label_hint_absent">Device not seen recently.
+        \nPlease make sure it in range, powered on, and press the "Scan Bluetooth" icon.</string>
+    <string name="label_hint_unselected">To use and remember this device, please click the checkmark.</string>
 
 </resources>

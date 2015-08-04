@@ -25,6 +25,9 @@ import java.util.Collection;
 import java.util.List;
 
 
+/**
+ * The principal and so far only activity.
+ */
 public class MainActivity extends Activity {
 
     private static final int DELAY_AFTER_BT_ON = 3 * 1000;
@@ -50,7 +53,7 @@ public class MainActivity extends Activity {
         public void onBeanDiscovered(Bean bean, int rssi) {
             updateBean(bean, rssi, true);
             int nb = BeanManager.getInstance().getBeans().size();
-            Log2.i(TAG, "Scanning... Discovered \"" + bean.getDevice().getName() + "\" [" + nb + "].");
+            Log2.i(TAG, "Scanning... (" + nb + ") Discovered \"" + bean.getDevice().getName() + ".");
             Log2.d(TAG, "- rssi:   " + rssi);
             Log2.d(TAG, "- device: " + bean.getDevice());
         }
@@ -189,9 +192,6 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         switch (id) {

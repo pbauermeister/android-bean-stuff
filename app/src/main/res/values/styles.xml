@@ -13,4 +13,8 @@
         <item name="android:textColor">#b0b0b0</item>
     </style>
 
+    <style name="DeviceFontHint" parent="@android:style/TextAppearance.Small">
+        <item name="android:textColor">#b0b0b0</item>
+    </style>
+
 </resources>
