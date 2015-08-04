@@ -38,9 +38,12 @@ public class MainActivity extends Activity {
     private View logDetails;
 
     private ListView listView;
+    private TextView emptyTv;
     private DeviceListAdapter adapter;
     private BluetoothAdapter bluetoothAdapter;
     private Menu menu;
+
+    private boolean scanning;
 
     private BeanDiscoveryListener listener = new BeanDiscoveryListener() {
         @Override
@@ -54,6 +57,7 @@ public class MainActivity extends Activity {
 
         @Override
         public void onDiscoveryComplete() {
+            scanning = false;
 
             // mark presence
             List<Device> present = new ArrayList<Device>();
@@ -86,6 +90,7 @@ public class MainActivity extends Activity {
                     Log2.i(TAG, "Scan done. Found " + nb + ".");
                     menu.findItem(R.id.action_bt_scan).setEnabled(true);
                     menu.findItem(R.id.action_bt_scan).setIcon(R.mipmap.ic_bt_scan_48px);
+                    refreshView();
                 }
             });
         }
@@ -98,6 +103,7 @@ public class MainActivity extends Activity {
         // init view
         setContentView(R.layout.activity_main);
         listView = (ListView) findViewById(R.id.listView);
+        emptyTv = (TextView) findViewById(R.id.emptyTv);
 
         logTv = (TextView) findViewById(R.id.logTv);
         lastLogTv = (TextView) findViewById(R.id.lastLogTv);
@@ -215,6 +221,8 @@ public class MainActivity extends Activity {
             @Override
             public void run() {
                 adapter.notifyDataSetChanged();
+                emptyTv.setVisibility(adapter.isEmpty() && !scanning ? View.VISIBLE : View.GONE);
+                listView.setVisibility(adapter.isEmpty() ? View.GONE : View.VISIBLE);
             }
         });
     }
@@ -248,6 +256,9 @@ public class MainActivity extends Activity {
     }
 
     private void startScan() {
+        scanning = true;
+        refreshView();
+
         menu.findItem(R.id.action_bt_scan).setEnabled(false);
         menu.findItem(R.id.action_bt_scan).setIcon(R.drawable.ic_bt_scanning);
         ((AnimationDrawable) menu.findItem(R.id.action_bt_scan).getIcon()).start();

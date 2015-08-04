@@ -9,4 +9,7 @@
     <string name="action_bt_reset">Reset Bluetooth</string>
     <string name="action_bt_scan">Scan Bluetooth</string>
 
+    <string name="label_no_device">No Bean detected.\n
+        \nPlease check that Beans are in range, and scan again.</string>
+
 </resources>
