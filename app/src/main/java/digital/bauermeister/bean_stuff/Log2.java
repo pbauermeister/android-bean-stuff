@@ -51,6 +51,7 @@ public class Log2 {
     }
 
     public static void clear() {
+        previousDateString = null;
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {

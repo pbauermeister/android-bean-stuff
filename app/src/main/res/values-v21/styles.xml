@@ -7,12 +7,11 @@
         <!--   your app branding color for the app bar -->
         <item name="android:colorPrimary">#ffc71e</item>
         <!--   darker variant for the status bar and contextual app bars -->
-        <item name="android:colorPrimaryDark">#b57e41</item>
+        <item name="android:colorPrimaryDark">#303030</item>
         <!--   theme UI controls like checkboxes and text fields -->
         <item name="android:colorAccent">#ffc71e</item>
 
-        <item name="android:navigationBarColor">#b57e41</item>
-
+        <item name="android:navigationBarColor">#000000</item>
 
     </style>
 

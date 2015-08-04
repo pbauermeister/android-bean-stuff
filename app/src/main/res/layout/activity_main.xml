@@ -34,7 +34,7 @@
     <!-- Bottom sliding panel -->
 
     <LinearLayout
-        android:background="#ffdd76"
+        android:background="#90ffff"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -49,14 +49,14 @@
             android:layout_gravity="center"
             android:layout_marginBottom="2dp"
             android:layout_marginTop="4dp"
-            android:background="#80b57e41" />
+            android:background="#40000000" />
 
         <LinearLayout
             android:layout_width="36dp"
             android:layout_height="4px"
             android:layout_gravity="center"
             android:layout_marginBottom="2dp"
-            android:background="#80b57e41" />
+            android:background="#40000000" />
 
         <!-- Last message -->
 
@@ -77,8 +77,8 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="1px"
-                android:layout_marginBottom="4dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 android:background="#404040" />
 
             <ScrollView
