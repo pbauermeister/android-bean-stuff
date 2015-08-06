@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<color name="screen_bg">#23b8b9</color>-->
+    <color name="screen_bg">#d0d0d0</color>
+
+    <!--<color name="device_card_bg">#a0154180</color>-->
+    <color name="device_card_bg">#eeeeee</color>
+
+    <color name="device_button_bg">#2db6b8</color>
+
+    <!--<color name="log_panel_bg">#90ffff</color>-->
+    <color name="log_panel_bg">#ffffff</color>
+
+
+    <!--<color name="device_font_main">#fefefe</color>-->
+    <!--<color name="device_font_secondary">#b0b0b0</color>-->
+    <!--<color name="device_font_hint">#b0b0b0</color>-->
+    <color name="device_font_main">#404040</color>
+    <color name="device_font_secondary">#909090</color>
+    <color name="device_font_hint">#909090</color>
+
+</resources>

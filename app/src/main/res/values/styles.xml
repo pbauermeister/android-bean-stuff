@@ -6,15 +6,15 @@
     </style>
 
     <style name="DeviceFontMain" parent="@android:style/TextAppearance.Medium">
-        <item name="android:textColor">#fefefe</item>
+        <item name="android:textColor">@color/device_font_main</item>
     </style>
 
     <style name="DeviceFontSecondary" parent="@android:style/TextAppearance.Small">
-        <item name="android:textColor">#b0b0b0</item>
+        <item name="android:textColor">@color/device_font_secondary</item>
     </style>
 
     <style name="DeviceFontHint" parent="@android:style/TextAppearance.Small">
-        <item name="android:textColor">#b0b0b0</item>
+        <item name="android:textColor">@color/device_font_hint</item>
     </style>
 
 </resources>
