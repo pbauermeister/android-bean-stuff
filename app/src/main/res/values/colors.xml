@@ -5,12 +5,12 @@
 
     <!--<color name="device_card_bg">#a0154180</color>-->
     <color name="device_card_bg">#eeeeee</color>
+    <color name="device_card_absent_bg">#a0eeeeee</color>
 
     <color name="device_button_bg">#2db6b8</color>
 
     <!--<color name="log_panel_bg">#90ffff</color>-->
     <color name="log_panel_bg">#ffffff</color>
-
 
     <!--<color name="device_font_main">#fefefe</color>-->
     <!--<color name="device_font_secondary">#b0b0b0</color>-->

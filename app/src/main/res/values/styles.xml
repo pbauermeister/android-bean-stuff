@@ -10,6 +10,12 @@
     </style>
 
     <style name="DeviceFontSecondary" parent="@android:style/TextAppearance.Small">
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">@color/device_font_secondary</item>
+    </style>
+
+    <style name="DeviceFontTiny" parent="@android:style/TextAppearance.Small">
+        <item name="android:textSize">12dp</item>
         <item name="android:textColor">@color/device_font_secondary</item>
     </style>
 

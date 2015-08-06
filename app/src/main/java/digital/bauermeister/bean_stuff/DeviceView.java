@@ -6,12 +6,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -23,10 +22,11 @@ public class DeviceView extends FrameLayout {
     private static final String TAG = "DeviceView";
     private TextView nameTv;
     private TextView rssiTv;
-    private TextView connTv;
     private TextView addrTv;
     private TextView hintTv;
     private View bg;
+    private ImageView rssiIv;
+    private ImageView connIv;
 
     private Button button1;
     private CheckBox selectedCb;
@@ -47,9 +47,10 @@ public class DeviceView extends FrameLayout {
         bg = findViewById(R.id.bg);
         nameTv = (TextView) findViewById(R.id.name);
         rssiTv = (TextView) findViewById(R.id.rssi);
-        connTv = (TextView) findViewById(R.id.conn);
         addrTv = (TextView) findViewById(R.id.addr);
         hintTv = (TextView) findViewById(R.id.hint);
+        rssiIv = (ImageView) findViewById(R.id.rssiIv);
+        connIv = (ImageView) findViewById(R.id.connIv);
 
         button1 = (Button) findViewById(R.id.button1);
         selectedCb = (CheckBox) findViewById(R.id.selectedCb);
@@ -69,8 +70,24 @@ public class DeviceView extends FrameLayout {
 
         nameTv.setText(device.getName());
         rssiTv.setText(present ? "" + device.getRssi() : "---");
-        connTv.setText("" + conn);
+        connIv.setImageResource(conn ? R.mipmap.ic_connected_24px : R.mipmap.ic_disconnected_24px);
         addrTv.setText(device.getBdAddress());
+
+        // 1m distance -40dB
+        // 2m          -46dB
+        // 4m          -52dB
+        // 8m          -58dB
+        // 16m         -64dB
+        int res;
+        int rssi = device.getRssi();
+        if (!present) res = R.mipmap.ic_signal_cellular_connected_no_internet_0_bar_18px;
+        else if (rssi > -64) res = R.mipmap.ic_signal_cellular_4_bar_18px;
+        else if (rssi > -70) res = R.mipmap.ic_signal_cellular_3_bar_18px;
+        else if (rssi > -76) res = R.mipmap.ic_signal_cellular_2_bar_18px;
+        else if (rssi > -82) res = R.mipmap.ic_signal_cellular_1_bar_18px;
+        else if (rssi > -88) res = R.mipmap.ic_signal_cellular_0_bar_18px;
+        else res = R.mipmap.ic_signal_cellular_0_bar_18px;
+        rssiIv.setImageResource(res);
 
         selectedCb.setChecked(selected);
         selectedCb.setEnabled(present);

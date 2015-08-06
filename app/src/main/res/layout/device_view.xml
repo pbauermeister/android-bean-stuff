@@ -15,7 +15,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:gravity="bottom"
             android:orientation="horizontal">
 
             <TextView
@@ -25,9 +25,8 @@
                 android:layout_height="wrap_content" />
 
             <Space
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+                android:layout_width="10dp"
+                android:layout_height="0dp" />
 
             <TextView
                 android:id="@+id/addr"
@@ -40,28 +39,26 @@
                 android:layout_height="0dp"
                 android:layout_weight="1" />
 
+            <ImageView
+                android:id="@+id/rssiIv"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent" />
+
             <TextView
                 android:id="@+id/rssi"
-                style="@style/DeviceFontSecondary"
+                style="@style/DeviceFontTiny"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <Space
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+                android:layout_width="10dp"
+                android:layout_height="0dp" />
 
-            <TextView
-                android:id="@+id/conn"
-                style="@style/DeviceFontSecondary"
+            <ImageView
+                android:id="@+id/connIv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
+            
             <Space
                 android:layout_width="36dp"
                 android:layout_height="0dp" />
@@ -110,5 +107,5 @@
         android:layout_height="36dp"
         android:layout_gravity="right"
         android:layout_margin="4dp"
-        android:background="@drawable/ic_highlight_remove_white_36dp" />
+        android:background="@drawable/ic_highlight_remove_black_24dp" />
 </FrameLayout>
