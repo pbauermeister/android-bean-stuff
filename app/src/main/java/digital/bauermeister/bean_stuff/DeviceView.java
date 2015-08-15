@@ -114,14 +114,18 @@ public class DeviceView extends FrameLayout {
 
         button1.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    listener.onButtonDown(device, (Button) v);
-                    return false;
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    listener.onButtonUp(device, (Button) v);
-                    return false;
-                } else return false;
+            public boolean onTouch(final View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        listener.onButtonDown(device, (Button) v);
+                        return false;
+                    case MotionEvent.ACTION_UP:
+//                    case MotionEvent.ACTION_CANCEL:
+                        listener.onButtonUp(device, (Button) v);
+                        return false;
+                    default:
+                        return false;
+                }
             }
         });
 

@@ -25,7 +25,8 @@ public class DeviceListAdapter extends RealmBaseAdapter<Device> implements ListA
         deviceAction = new DeviceAction(activity, new DeviceAction.DeviceActionHandler() {
             @Override
             public void onChange() {
-                notifyDataSetChanged();
+                // TODO: Defer if any button is pressed
+//                notifyDataSetChanged();
             }
         });
     }

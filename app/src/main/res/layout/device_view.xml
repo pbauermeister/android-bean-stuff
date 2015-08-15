@@ -58,7 +58,7 @@
                 android:id="@+id/connIv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-            
+
             <Space
                 android:layout_width="36dp"
                 android:layout_height="0dp" />
