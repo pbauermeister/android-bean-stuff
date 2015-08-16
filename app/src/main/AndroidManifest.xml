@@ -5,7 +5,7 @@
     <application
         android:name=".TheApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/light_blue_bean_icon"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
 
