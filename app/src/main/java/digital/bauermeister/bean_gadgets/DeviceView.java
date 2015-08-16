@@ -1,4 +1,4 @@
-package digital.bauermeister.bean_stuff;
+package digital.bauermeister.bean_gadgets;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -12,6 +12,8 @@ import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import digital.bauermeister.bean_gadgets.R;
 
 /**
  * Created by pascal on 7/26/15.

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="digital.bauermeister.bean_stuff">
+    package="digital.bauermeister.bean_gadgets">
 
     <application
-        android:name=".TheApplication"
+        android:name="digital.bauermeister.bean_gadgets.TheApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".MainActivity"
+            android:name="digital.bauermeister.bean_gadgets.MainActivity"
             android:screenOrientation="portrait"
             android:label="@string/app_name">
             <intent-filter>

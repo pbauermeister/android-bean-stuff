@@ -1,4 +1,4 @@
-package digital.bauermeister.bean_stuff;
+package digital.bauermeister.bean_gadgets;
 
 import android.content.Context;
 

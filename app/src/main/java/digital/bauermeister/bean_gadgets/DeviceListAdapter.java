@@ -1,4 +1,4 @@
-package digital.bauermeister.bean_stuff;
+package digital.bauermeister.bean_gadgets;
 
 import android.app.Activity;
 import android.util.Log;
@@ -9,6 +9,7 @@ import android.widget.ListAdapter;
 
 import com.punchthrough.bean.sdk.Bean;
 
+import digital.bauermeister.bean_gadgets.R;
 import io.realm.RealmBaseAdapter;
 import io.realm.RealmResults;
 

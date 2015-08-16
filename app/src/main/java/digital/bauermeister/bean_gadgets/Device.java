@@ -1,4 +1,4 @@
-package digital.bauermeister.bean_stuff;
+package digital.bauermeister.bean_gadgets;
 
 import com.punchthrough.bean.sdk.Bean;
 import com.punchthrough.bean.sdk.BeanManager;

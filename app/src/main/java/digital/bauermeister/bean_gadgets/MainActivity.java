@@ -1,4 +1,4 @@
-package digital.bauermeister.bean_stuff;
+package digital.bauermeister.bean_gadgets;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -23,6 +23,8 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import digital.bauermeister.bean_gadgets.R;
 
 
 /**
