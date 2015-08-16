@@ -42,9 +42,9 @@
      id="namedview6"
      showgrid="false"
      inkscape:zoom="9.8333338"
-     inkscape:cx="4.6355655"
+     inkscape:cx="-11.83901"
      inkscape:cy="15.568476"
-     inkscape:window-x="0"
+     inkscape:window-x="49"
      inkscape:window-y="30"
      inkscape:window-maximized="0"
      inkscape:current-layer="svg2" />
@@ -62,7 +62,7 @@
      sodipodi:end="5.3930674" />
   <path
      sodipodi:type="arc"
-     style="fill:#000000;fill-opacity:0.05;stroke:none"
+     style="fill:#000000;fill-opacity:0;stroke:none"
      id="path4011"
      sodipodi:cx="-13.423728"
      sodipodi:cy="24.915255"
