@@ -11,9 +11,12 @@ Current features:
 * Select device to be used and remembered.
 * Push button turns on+off the LED.
 
+Ongoing development:
+* Move BLE handling from Activity to a service, so as not to be disturebed by Activity lifecycle.
+* Use EventBus to update indicators w/o reloading the list adapter.
+
 Plans:
 * Firmware to indicate per-bean layout (buttons, displays).
-* Usage of RxJava and EventBus.
 * Libraries AndroidSlidingUpPanel and sdk (of Bean-Android-SDK) to be referred to, instead of included.
 
 In addition, the bean-police-beacon/ folder contains resources to
