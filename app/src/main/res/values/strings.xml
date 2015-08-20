@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Bean Gadgets</string>
 
-    <string name="action_settings">Settings</string>
+    <string name="action_about">About</string>
 
     <item name="TAG_DEVICE_ITEM" type="id" />
 
@@ -13,8 +13,6 @@
 
     <string name="label_pushbutton">PUSH AND HOLD</string>
 
-    <string name="label_hint_absent">Device not seen recently.
-        \nPlease make sure it in range, powered on, and press the "Scan Bluetooth" icon.</string>
     <string name="label_hint_unselected">To use and remember this device, please click the checkmark.</string>
 
 </resources>

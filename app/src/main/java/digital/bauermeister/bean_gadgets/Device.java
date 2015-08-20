@@ -1,9 +1,14 @@
 package digital.bauermeister.bean_gadgets;
 
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.util.Log;
+
 import com.punchthrough.bean.sdk.Bean;
-import com.punchthrough.bean.sdk.BeanManager;
 
 import org.assertj.core.util.Preconditions;
+
+import java.util.HashMap;
 
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
@@ -18,14 +23,14 @@ import io.realm.annotations.PrimaryKey;
  */
 public class Device extends RealmObject {
 
+    private static final String TAG = "Device";
+    static HashMap<String, Bean> beans;
     @PrimaryKey
     private String bdAddress; // BT device MAC address
-
     private String name; // device BT name
     private int rssi; // signal strength at scan
     private boolean isSelected; // selected by user
     private boolean isPresent; // seen in last BT scan
-
     @Ignore
     private String error;
 
@@ -34,16 +39,39 @@ public class Device extends RealmObject {
         this.name = bean.getDevice().getName();
         this.rssi = rssi;
         this.isPresent = present;
+        clearCache();
     }
 
     public Device() {
+        clearCache();
+    }
+
+    public static void clearCache() {
+        beans = new HashMap<String, Bean>();
     }
 
     public static Bean getBean(Device device) {
-        for (Bean bean : BeanManager.getInstance().getBeans()) {
-            if (bean.getDevice().getAddress().equals(device.getBdAddress()))
-                return bean;
+//        for (Bean bean : BeanManager.getInstance().getBeans()) {
+//            if (bean.getDevice().getAddress().equals(device.getBdAddress()))
+//                Log.d(TAG, "-Use discovered bean-");
+//            return bean;
+//        }
+        String bdAddress = device.getBdAddress();
+        if (beans.containsKey(bdAddress)) {
+            Log.d(TAG, "-Bean from cache-");
+            return beans.get(bdAddress);
         }
+
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (bluetoothAdapter != null) {
+            BluetoothDevice btDevice = bluetoothAdapter.getRemoteDevice(bdAddress);
+            Log.d(TAG, "-Use created bean with BtAdapter-");
+            Bean bean = new Bean(btDevice);
+            beans.put(bdAddress, bean);
+            return bean;
+        }
+
+        Log.d(TAG, "-No bean-");
         return null;
     }
 

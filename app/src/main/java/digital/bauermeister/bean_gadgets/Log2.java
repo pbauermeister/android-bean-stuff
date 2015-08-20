@@ -2,7 +2,6 @@ package digital.bauermeister.bean_gadgets;
 
 import android.app.Activity;
 import android.util.Log;
-import android.view.View;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -11,7 +10,7 @@ import java.util.Date;
 
 /**
  * Created by pascal on 7/26/15.
- *
+ * <p/>
  * Logging facility, feeding both the system logs, and the log panel.
  */
 public class Log2 {
@@ -34,8 +33,7 @@ public class Log2 {
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                logTv.append(tsPrefix() + msg + "\n");
-                scrollView.fullScroll(View.FOCUS_DOWN);
+                add(msg);
             }
         });
     }
@@ -46,8 +44,7 @@ public class Log2 {
             @Override
             public void run() {
                 summaryTv.setText(msg);
-                logTv.append(tsPrefix() + msg + "\n");
-                scrollView.fullScroll(View.FOCUS_DOWN);
+                add(msg);
             }
         });
     }
@@ -63,15 +60,12 @@ public class Log2 {
         });
     }
 
-    private static String tsPrefix() {
+    private static void add(final String msg) {
         Date date = new Date();
         String dateString = new SimpleDateFormat("[yyyy-MM-dd]").format(date);
-        String timeString = new SimpleDateFormat("  [HH:mm:ss] ").format(date);
-        if (dateString.equals(previousDateString)) {
-            return timeString;
-        } else {
-            previousDateString = dateString;
-            return dateString + "\n" + timeString;
-        }
+        String tsPostfix = dateString.equals(previousDateString) ? "" : "\n" + dateString;
+        previousDateString = dateString;
+        String tsPrefix = new SimpleDateFormat("[HH:mm:ss] ").format(date);
+        logTv.setText(tsPrefix + msg + tsPostfix + "\n" + logTv.getText());
     }
 }

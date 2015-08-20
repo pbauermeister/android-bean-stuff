@@ -9,9 +9,10 @@ import android.widget.ListAdapter;
 
 import com.punchthrough.bean.sdk.Bean;
 
-import digital.bauermeister.bean_gadgets.R;
+import de.greenrobot.event.EventBus;
 import io.realm.RealmBaseAdapter;
 import io.realm.RealmResults;
+
 
 /**
  * Adapter used by the ListView to display Devices, and backed by the RealmDB database.
@@ -25,7 +26,12 @@ public class DeviceListAdapter extends RealmBaseAdapter<Device> implements ListA
         super(activity, getList(), true);
         deviceAction = new DeviceAction(activity, new DeviceAction.DeviceActionHandler() {
             @Override
-            public void onChange() {
+            public void onChangeState(Bean bean) {
+                EventBus.getDefault().post(bean);
+            }
+
+            @Override
+            public void onChangeList() {
                 notifyDataSetChanged();
             }
         });
@@ -72,7 +78,7 @@ public class DeviceListAdapter extends RealmBaseAdapter<Device> implements ListA
         final String initialLabel = context.getResources().getString(R.string.label_pushbutton);
         viewHolder.itemView.init(
                 device,
-                bean == null ? false : bean.isConnected(),
+                bean,
                 initialLabel,
                 new DeviceView.Listener() {
                     @Override

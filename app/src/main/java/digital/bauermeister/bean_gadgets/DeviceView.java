@@ -13,7 +13,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import digital.bauermeister.bean_gadgets.R;
+import com.punchthrough.bean.sdk.Bean;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by pascal on 7/26/15.
@@ -32,7 +34,8 @@ public class DeviceView extends FrameLayout {
 
     private Button button1;
     private CheckBox selectedCb;
-    private Button deleteBtn;
+
+    private String bdAddress = "";
 
     public DeviceView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -44,11 +47,18 @@ public class DeviceView extends FrameLayout {
         initLayout();
     }
 
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        EventBus.getDefault().unregister(this);
+    }
+
+
     private void initLayout() {
         LayoutInflater.from(getContext()).inflate(R.layout.device_view, this);
         bg = findViewById(R.id.bg);
         nameTv = (TextView) findViewById(R.id.name);
-        rssiTv = (TextView) findViewById(R.id.rssi);
+        rssiTv = (TextView) findViewById(R.id.rssiTv);
         addrTv = (TextView) findViewById(R.id.addr);
         hintTv = (TextView) findViewById(R.id.hint);
         rssiIv = (ImageView) findViewById(R.id.rssiIv);
@@ -56,24 +66,24 @@ public class DeviceView extends FrameLayout {
 
         button1 = (Button) findViewById(R.id.button1);
         selectedCb = (CheckBox) findViewById(R.id.selectedCb);
-        deleteBtn = (Button) findViewById(R.id.deleteBtn);
 
+        EventBus.getDefault().register(this);
     }
 
     public void init(final Device device,
-                     Boolean conn,
+                     Bean bean,
                      String buttonText,
                      final Listener listener) {
 
-        final boolean present = device.isPresent();
+        bdAddress = device.getBdAddress();
+
         final boolean selected = device.isSelected();
         Log.d(TAG, "deviceView init() dev --> " + device);
         Log.d(TAG, "                  sel --> " + selected);
 
         nameTv.setText(device.getName());
-        rssiTv.setText(present ? "" + device.getRssi() : "---");
-        connIv.setImageResource(conn ? R.mipmap.ic_connected_24px : R.mipmap.ic_disconnected_24px);
-        addrTv.setText(device.getBdAddress());
+        rssiTv.setText("" + device.getRssi());
+        addrTv.setText(bdAddress);
 
         // 1m distance -40dB
         // 2m          -46dB
@@ -82,8 +92,7 @@ public class DeviceView extends FrameLayout {
         // 16m         -64dB
         int res;
         int rssi = device.getRssi();
-        if (!present) res = R.mipmap.ic_signal_cellular_connected_no_internet_0_bar_18px;
-        else if (rssi > -64) res = R.mipmap.ic_signal_cellular_4_bar_18px;
+        if (rssi > -64) res = R.mipmap.ic_signal_cellular_4_bar_18px;
         else if (rssi > -70) res = R.mipmap.ic_signal_cellular_3_bar_18px;
         else if (rssi > -76) res = R.mipmap.ic_signal_cellular_2_bar_18px;
         else if (rssi > -82) res = R.mipmap.ic_signal_cellular_1_bar_18px;
@@ -92,24 +101,20 @@ public class DeviceView extends FrameLayout {
         rssiIv.setImageResource(res);
 
         selectedCb.setChecked(selected);
-        selectedCb.setEnabled(present);
 
-        selectedCb.setVisibility(present ? VISIBLE : INVISIBLE);
-        deleteBtn.setVisibility(present ? INVISIBLE : VISIBLE);
+        bg.setBackgroundResource(R.drawable.device_bg);
 
-        bg.setBackgroundResource(present ? R.drawable.device_bg : R.drawable.device_absent_bg);
-
-        button1.setEnabled(present && selected);
-        button1.setVisibility(present && selected ? VISIBLE : GONE);
+        button1.setEnabled(selected);
+        button1.setVisibility(selected ? VISIBLE : GONE);
         button1.setText(buttonText);
 
-        hintTv.setVisibility(!present || !selected ? VISIBLE : GONE);
-        hintTv.setText(!present ? R.string.label_hint_absent : R.string.label_hint_unselected);
+        hintTv.setVisibility(!selected ? VISIBLE : GONE);
+        hintTv.setText(R.string.label_hint_unselected);
 
         selectedCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                button1.setEnabled(present && isChecked);
+                button1.setEnabled(isChecked);
                 listener.onSelectedChanged(device, isChecked);
             }
         });
@@ -130,36 +135,21 @@ public class DeviceView extends FrameLayout {
                 }
             }
         });
-        deleteBtn.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                delete(device);
-            }
-        });
 
+        updateState(bean);
     }
 
-    private void delete(final Device device) {
-        DeviceDatabase.INSTANCE.removeDevice(device);
+    private void updateState(Bean bean) {
+        boolean conn = bean == null ? false : bean.isConnected();
+        connIv.setImageResource(conn ? R.mipmap.ic_connected_24px : R.mipmap.ic_disconnected_24px);
+        // TODO: figure out RSSI and update it
+    }
 
-//        final ScaleAnimation shrinkAnim = new ScaleAnimation(1.15f, 1.0f, 1.15f, 1.0f);
-//        shrinkAnim.setDuration(2000);
-//        shrinkAnim.setAnimationListener(new Animation.AnimationListener() {
-//            @Override
-//            public void onAnimationStart(Animation animation) {
-//            }
-//
-//            @Override
-//            public void onAnimationRepeat(Animation animation) {
-//            }
-//
-//            @Override
-//            public void onAnimationEnd(Animation animation) {
-//                DeviceDatabase.INSTANCE.removeDevice(device);
-//            }
-//        });
-//        setAnimation(shrinkAnim);
-//        shrinkAnim.start();
+    public void onEventMainThread(Bean event) {
+        if (bdAddress.equals(event.getDevice().getAddress())) {
+            Log.d(TAG, "-EVENT FOR ME- " + event);
+            updateState(event);
+        }
     }
 
     public interface Listener {

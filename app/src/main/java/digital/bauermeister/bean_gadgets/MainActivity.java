@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.AnimationDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -24,16 +26,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import digital.bauermeister.bean_gadgets.R;
-
 
 /**
  * The principal and so far only activity.
  */
 public class MainActivity extends Activity {
 
-    private static final int DELAY_AFTER_BT_ON = 3 * 1000;
-    private static final int DELAY_AFTER_BT_OFF = 3 * 1000;
+    private static final int DELAY_AFTER_BT_ON = 2 * 1000;
+    private static final int DELAY_AFTER_BT_OFF = 2 * 1000;
 
     private static final String TAG = "MainActivity";
 
@@ -140,11 +140,11 @@ public class MainActivity extends Activity {
             @Override
             public void run() {
                 startScan();
+//                refreshView();
             }
         });
 
         SlidingUpPanelLayout p = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
-//        p.setAnchorPoint(0.4f);
         logDetails.setVisibility(View.GONE);
         p.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
@@ -205,8 +205,10 @@ public class MainActivity extends Activity {
                 resetBt();
                 return true;
 
-            case R.id.action_settings:
-                // TODO
+            case R.id.action_about:
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse("https://github.com/pbauermeister/android-bean-stuff"));
+                startActivity(i);
                 return true;
         }
 

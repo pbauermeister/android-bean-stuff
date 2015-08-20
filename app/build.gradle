@@ -25,4 +25,5 @@ dependencies {
     compile "com.android.support:appcompat-v7:22.0.+"
     compile 'io.realm:realm-android:0.81.1'
     compile project(':AndroidSlidingUpPanel/library')
+    compile 'de.greenrobot:eventbus:2.4.0'
 }

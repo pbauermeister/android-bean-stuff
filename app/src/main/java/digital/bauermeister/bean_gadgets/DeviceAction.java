@@ -54,61 +54,80 @@ public class DeviceAction {
         final Bean bean = Device.getBean(device);
 
         if (bean == null) {
-            Log2.i(TAG, device.getName() + " is not available.");
+            Log2.i(TAG, device + " is not available.");
             return;
+        }
+
+        if (bean.isConnected()) {
+            Log2.i(TAG, "Is already connected: " + device.getName());
+            action.doAction(bean, device);
         } else {
-            BeanListener beanListener = new BeanListener() {
-                @Override
-                public void onConnected() {
-                    Log2.i(TAG, "Connected to " + device.getName() + ".");
-                    device.setError(null);
-                    handler.onChange();
-                    action.doAction(bean, device);
-                }
-
-                @Override
-                public void onConnectionFailed() {
-                    Log2.i(TAG, "Connection to " + device.getName() + " failed.");
-                    handler.onChange();
-                }
-
-                @Override
-                public void onDisconnected() {
-                    Log2.i(TAG, "Disconnected from " + device.getName() + ".");
-                    handler.onChange();
-                }
-
-                @Override
-                public void onSerialMessageReceived(byte[] data) {
-                }
-
-                @Override
-                public void onScratchValueChanged(ScratchBank bank, byte[] value) {
-                }
-
-                @Override
-                public void onError(BeanError error) {
-                }
-            };
-            if (!bean.isConnected()) {
-                Log2.i(TAG, "Connecting to " + device.getName() + "...");
-                handler.onChange();
-                try {
-                    bean.connect(context, beanListener);
-                } catch (Exception e) {
-                    Log2.i(TAG, "Connecting to " + device.getName() + " FAILED");
-                }
-            } else {
-                action.doAction(bean, device);
+            Log2.i(TAG, "Connecting to " + device.getName() + "...");
+            MyBeanListener beanListener = new MyBeanListener(device, bean, action);
+            handler.onChangeState(bean);
+            try {
+                bean.connect(context, beanListener);
+            } catch (Exception e) {
+                Log2.i(TAG, "Connecting to " + device.getName() + " FAILED");
             }
         }
     }
 
     public interface DeviceActionHandler {
-        void onChange();
+        void onChangeState(Bean bean);
+
+        void onChangeList();
     }
 
     private interface ConnectedAction {
         void doAction(Bean bean, Device device);
     }
+
+    private class MyBeanListener implements BeanListener {
+        private final String name;
+        private final Device device;
+        private final Bean bean;
+        private final ConnectedAction action;
+
+        public MyBeanListener(Device device, Bean bean, ConnectedAction action) {
+            name = device.getName();
+            this.device = device;
+            this.bean = bean;
+            this.action = action;
+        }
+
+        @Override
+        public void onConnected() {
+            Log2.i(TAG, "Connected to " + name + ".");
+            device.setError(null);
+            handler.onChangeState(bean);
+            action.doAction(bean, device);
+        }
+
+        @Override
+        public void onConnectionFailed() {
+            Log2.i(TAG, "Connection to " + name + " failed.");
+            handler.onChangeState(bean);
+        }
+
+        @Override
+        public void onDisconnected() {
+            Log2.i(TAG, "Disconnected from " + name + ".");
+            handler.onChangeState(bean);
+        }
+
+        @Override
+        public void onSerialMessageReceived(byte[] data) {
+        }
+
+        @Override
+        public void onScratchValueChanged(ScratchBank bank, byte[] value) {
+        }
+
+        @Override
+        public void onError(BeanError error) {
+        }
+    }
+
+    ;
 }
