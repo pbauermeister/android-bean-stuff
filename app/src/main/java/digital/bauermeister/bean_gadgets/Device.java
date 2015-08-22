@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothDevice;
 import android.util.Log;
 
 import com.punchthrough.bean.sdk.Bean;
+import com.punchthrough.bean.sdk.BeanManager;
 
 import org.assertj.core.util.Preconditions;
 
@@ -49,11 +50,14 @@ public class Device extends RealmObject {
     }
 
     public static Bean getBean(Device device) {
-//        for (Bean bean : BeanManager.getInstance().getBeans()) {
-//            if (bean.getDevice().getAddress().equals(device.getBdAddress()))
-//                Log.d(TAG, "-Use discovered bean-");
-//            return bean;
-//        }
+        for (Bean bean : BeanManager.getInstance().getBeans()) {
+            if (bean.getDevice().getAddress().equals(device.getBdAddress())) {
+                Log.d(TAG, "-Use discovered bean-");
+                beans.put(device.getBdAddress(), bean);
+                return bean;
+            }
+        }
+
         String bdAddress = device.getBdAddress();
         if (beans.containsKey(bdAddress)) {
             Log.d(TAG, "-Bean from cache-");
