@@ -70,6 +70,7 @@ public class DeviceAction {
                 bean.connect(context, beanListener);
             } catch (Exception e) {
                 Log2.i(TAG, "Connecting to " + device.getName() + " FAILED");
+                Log2.d(TAG, "Error: " + e);
             }
         }
     }
@@ -127,5 +128,4 @@ public class DeviceAction {
         public void onError(BeanError error) {
         }
     }
-
 }

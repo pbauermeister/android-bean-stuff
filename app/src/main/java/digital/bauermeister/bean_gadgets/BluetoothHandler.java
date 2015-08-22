@@ -17,6 +17,7 @@ import de.greenrobot.event.EventBus;
 import digital.bauermeister.bean_gadgets.events.BeanDiscoveredEvent;
 import digital.bauermeister.bean_gadgets.events.BtResetDoneEvent;
 import digital.bauermeister.bean_gadgets.events.BtResetRequestEvent;
+import digital.bauermeister.bean_gadgets.events.DisconnectAllRequestEvent;
 import digital.bauermeister.bean_gadgets.events.ScanFinishedEvent;
 import digital.bauermeister.bean_gadgets.events.ScanRequestEvent;
 
@@ -187,6 +188,13 @@ public enum BluetoothHandler implements BeanDiscoveryListener {
                 });
             }
         });
+    }
+
+    public void onEventBackgroundThread(DisconnectAllRequestEvent event) {
+        Log.d(TAG, "--> DisconnectAllRequestEvent");
+        for (Bean bean : Device.getActiveBean()) {
+            if (bean.isConnected()) bean.disconnect();
+        }
     }
 
     /*

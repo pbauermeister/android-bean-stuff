@@ -9,7 +9,9 @@ import com.punchthrough.bean.sdk.BeanManager;
 
 import org.assertj.core.util.Preconditions;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
@@ -75,6 +77,12 @@ public class Device extends RealmObject {
 
         Log.d(TAG, "-No bean-");
         return null;
+    }
+
+    public static List<Bean> getActiveBean() {
+        List<Bean> list = new ArrayList<Bean>(BeanManager.getInstance().getBeans());
+        list.addAll(beans.values());
+        return list;
     }
 
     public String getError() {

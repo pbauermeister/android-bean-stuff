@@ -21,6 +21,7 @@ import de.greenrobot.event.EventBus;
 import digital.bauermeister.bean_gadgets.events.BeanDiscoveredEvent;
 import digital.bauermeister.bean_gadgets.events.BtResetDoneEvent;
 import digital.bauermeister.bean_gadgets.events.BtResetRequestEvent;
+import digital.bauermeister.bean_gadgets.events.DisconnectAllRequestEvent;
 import digital.bauermeister.bean_gadgets.events.ScanFinishedEvent;
 import digital.bauermeister.bean_gadgets.events.ScanRequestEvent;
 
@@ -114,6 +115,12 @@ public class MainActivity extends Activity {
             public void onPanelHidden(View view) {
             }
         });
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        EventBus.getDefault().post(new DisconnectAllRequestEvent());
     }
 
     @Override
