@@ -30,15 +30,13 @@ public class Device extends RealmObject {
     private String name; // device BT name
     private int rssi; // signal strength at scan
     private boolean isSelected; // selected by user
-    private boolean isPresent; // seen in last BT scan
     @Ignore
     private String error;
 
-    public Device(Bean bean, int rssi, boolean present) {
+    public Device(Bean bean, int rssi) {
         this.bdAddress = bean.getDevice().getAddress();
         this.name = bean.getDevice().getName();
         this.rssi = rssi;
-        this.isPresent = present;
         clearCache();
     }
 
@@ -73,14 +71,6 @@ public class Device extends RealmObject {
 
         Log.d(TAG, "-No bean-");
         return null;
-    }
-
-    public boolean isPresent() {
-        return isPresent;
-    }
-
-    public void setIsPresent(boolean isPresent) {
-        this.isPresent = isPresent;
     }
 
     public String getError() {

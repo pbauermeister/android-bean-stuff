@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -166,19 +165,18 @@ public class MainActivity extends Activity {
 
     private void resetBt() {
         EventBus.getDefault().post(new BtResetRequestEvent());
-        menu.findItem(R.id.action_bt_scan).setEnabled(false);
-        menu.findItem(R.id.action_bt_scan).setIcon(R.mipmap.ic_bt_scan_48px);
-
-        menu.findItem(R.id.action_bt_reset).setEnabled(false);
+        setScanMenuState(false, false);
+        setResetMenuState(false);
     }
 
     private void startScan() {
-        if (BluetoothHandler.INSTANCE.isScanning()) return;
+        if (BluetoothHandler.INSTANCE.isScanning()) {
+            Log.d(TAG, "Already scanning");
+            return;
+        }
 
         EventBus.getDefault().post(new ScanRequestEvent());
-        menu.findItem(R.id.action_bt_scan).setEnabled(false);
-        menu.findItem(R.id.action_bt_scan).setIcon(R.drawable.ic_bt_scanning);
-        ((AnimationDrawable) menu.findItem(R.id.action_bt_scan).getIcon()).start();
+        setMenusState(true, BluetoothHandler.INSTANCE.isResetting());
     }
 
     /*
@@ -192,16 +190,36 @@ public class MainActivity extends Activity {
 
     public void onEventMainThread(ScanFinishedEvent event) {
         Log.d(TAG, "--> ScanFinishedEvent");
-        menu.findItem(R.id.action_bt_scan).setEnabled(true);
-        menu.findItem(R.id.action_bt_scan).setIcon(R.mipmap.ic_bt_scan_48px);
+        setMenusState(BluetoothHandler.INSTANCE.isScanning(), BluetoothHandler.INSTANCE.isResetting());
         refreshView();
     }
 
     public void onEventMainThread(BtResetDoneEvent event) {
         Log.d(TAG, "--> BtResetDoneEvent");
-        menu.findItem(R.id.action_bt_scan).setEnabled(true);
-        menu.findItem(R.id.action_bt_scan).setIcon(R.mipmap.ic_bt_scan_48px);
-        menu.findItem(R.id.action_bt_reset).setEnabled(true);
+        setMenusState(BluetoothHandler.INSTANCE.isScanning(), BluetoothHandler.INSTANCE.isResetting());
     }
 
+
+    private void setScanMenuState(boolean enabled, boolean scanning) {
+        menu.findItem(R.id.action_bt_scan).setEnabled(enabled && !scanning);
+        if (scanning) {
+            menu.findItem(R.id.action_bt_scan).setIcon(R.drawable.ic_bt_scanning);
+            ((AnimationDrawable) menu.findItem(R.id.action_bt_scan).getIcon()).start();
+        } else if (!enabled) {
+            menu.findItem(R.id.action_bt_scan).setIcon(R.mipmap.ic_bt_scan_disabled_48px);
+        } else {
+            menu.findItem(R.id.action_bt_scan).setIcon(R.mipmap.ic_bt_scan_48px);
+        }
+    }
+
+    private void setResetMenuState(boolean enabled) {
+        menu.findItem(R.id.action_bt_reset).setEnabled(enabled);
+        menu.findItem(R.id.action_bt_reset).setIcon(
+                enabled ? R.mipmap.ic_bt_reset_48px : R.mipmap.ic_bt_reset_disabled_48px);
+    }
+
+    private void setMenusState(boolean scanning, boolean resetting) {
+        setScanMenuState(!scanning && !resetting, scanning);
+        setResetMenuState(!resetting);
+    }
 }

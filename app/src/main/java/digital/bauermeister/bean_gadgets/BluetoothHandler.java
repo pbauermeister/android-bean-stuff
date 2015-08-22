@@ -39,6 +39,7 @@ public enum BluetoothHandler implements BeanDiscoveryListener {
     private static final int DELAY_AFTER_BT_ON = 2 * 1000;
     private static final int DELAY_AFTER_BT_OFF = 2 * 1000;
     private boolean scanning;
+    private boolean resetting;
     private BluetoothAdapter bluetoothAdapter;
 
     public void init(Context context) {
@@ -62,6 +63,10 @@ public enum BluetoothHandler implements BeanDiscoveryListener {
         return scanning;
     }
 
+    public boolean isResetting() {
+        return resetting;
+    }
+
     public boolean hasBle() {
         return bluetoothAdapter != null;
     }
@@ -77,7 +82,7 @@ public enum BluetoothHandler implements BeanDiscoveryListener {
         Log2.i(TAG, "Scanning... (" + nb + ") Discovered \"" + bean.getDevice().getName() + ".");
         Log2.d(TAG, "- rssi:   " + rssi);
         Log2.d(TAG, "- device: " + bean.getDevice());
-        DeviceDatabase.INSTANCE.updateDeviceFromBean(bean, rssi, true);
+        DeviceDatabase.INSTANCE.updateDeviceFromBean(bean, rssi);
     }
 
     @Override
@@ -104,8 +109,6 @@ public enum BluetoothHandler implements BeanDiscoveryListener {
             if (here) present.add(device);
             else absent.add(device);
         }
-        for (Device device : present) db.updateDevicePresent(device, true);
-        for (Device device : absent) db.updateDevicePresent(device, false);
         for (Device device : absent) {
             if (!device.isSelected())
                 db.removeDevice(device);
@@ -160,6 +163,9 @@ public enum BluetoothHandler implements BeanDiscoveryListener {
             bluetoothAdapter.disable();
         }
 
+        scanning = false;
+        resetting = true;
+
         delayedRun(DELAY_AFTER_BT_OFF, new Runnable() {
             @Override
             public void run() {
@@ -167,6 +173,7 @@ public enum BluetoothHandler implements BeanDiscoveryListener {
                 delayedRun(DELAY_AFTER_BT_ON, new Runnable() {
                     @Override
                     public void run() {
+                        resetting = false;
                         EventBus.getDefault().post(new BtResetDoneEvent());
                     }
                 });

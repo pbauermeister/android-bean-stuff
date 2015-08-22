@@ -13,7 +13,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="ic_bt_reset_48px.svg">
+   sodipodi:docname="ic_bt_reset_disabled_48px.svg">
   <metadata
      id="metadata10">
     <rdf:RDF>
@@ -44,7 +44,7 @@
      inkscape:zoom="4.9166667"
      inkscape:cx="-10.983051"
      inkscape:cy="24"
-     inkscape:window-x="14"
+     inkscape:window-x="28"
      inkscape:window-y="30"
      inkscape:window-maximized="0"
      inkscape:current-layer="svg2" />
@@ -53,11 +53,11 @@
      id="path4"
      inkscape:connector-curvature="0"
      sodipodi:nodetypes="scccccsssccsss"
-     style="fill:#000000;fill-opacity:1" />
+     style="fill:#000000;fill-opacity:0.12941177" />
   <path
      d="m 31.721949,18.779099 -6.934863,-6.934864 -1.215577,0 0,9.220148 -5.573417,-5.573419 -1.720041,1.720041 L 23.067045,24 l -6.788994,6.788994 1.720041,1.720041 5.573417,-5.573418 0,9.220147 1.215577,0 6.934863,-6.934863 L 26.507127,24 z m -5.719287,-2.279206 2.285284,2.285284 -2.285284,2.279206 z m 2.285284,12.721008 -2.285284,2.279205 0,-4.564489 z"
      id="path4-5"
      inkscape:connector-curvature="0"
      sodipodi:nodetypes="ccccccccccccccccccccccc"
-     style="fill:#000000;fill-opacity:1" />
+     style="fill:#000000;fill-opacity:0.12941177" />
 </svg>

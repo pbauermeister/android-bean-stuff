@@ -32,13 +32,13 @@ public enum DeviceDatabase {
         return realm;
     }
 
-    public void updateDeviceFromBean(Bean bean, int rssi, boolean present) {
+    public void updateDeviceFromBean(Bean bean, int rssi) {
         Device device = getDevice(bean.getDevice().getAddress());
         if (device == null) {
-            device = new Device(bean, rssi, present);
+            device = new Device(bean, rssi);
             putDevice(device);
         } else {
-            updateDevice(device, bean, rssi, present);
+            updateDevice(device, bean, rssi);
         }
     }
 
@@ -70,14 +70,13 @@ public enum DeviceDatabase {
         }
     }
 
-    public synchronized void updateDevice(Device device, Bean bean, int rssi, boolean present) {
+    public synchronized void updateDevice(Device device, Bean bean, int rssi) {
         try {
             Log2.d(TAG, "updateDevice...");
             realm.beginTransaction();
             {
                 device.setName(bean.getDevice().getName());
                 device.setRssi(rssi);
-                device.setIsPresent(present);
             }
             realm.commitTransaction();
             Log2.d(TAG, "updateDevice OK");
@@ -100,22 +99,6 @@ public enum DeviceDatabase {
         } catch (RealmException e) {
             realm.cancelTransaction();
             Log2.d(TAG, "updateDeviceSelected FAILED");
-            throw e;
-        }
-    }
-
-    public synchronized void updateDevicePresent(Device device, boolean present) {
-        try {
-            Log2.d(TAG, "updateDevicePresent...");
-            realm.beginTransaction();
-            {
-                device.setIsPresent(present);
-            }
-            realm.commitTransaction();
-            Log2.d(TAG, "updateDevicePresent OK");
-        } catch (RealmException e) {
-            realm.cancelTransaction();
-            Log2.d(TAG, "updateDevicePresent FAILED");
             throw e;
         }
     }

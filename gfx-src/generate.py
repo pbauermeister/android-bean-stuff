@@ -5,7 +5,9 @@ import os.path
 import subprocess
 
 patterns = """
-*.svg
+#*.svg
+ic_bt_reset_48px.svg
+ic_bt_reset_disabled_48px.svg
 """
 
 scales = {
@@ -17,8 +19,9 @@ scales = {
 }
 
 names = []
-for each in patterns.strip().split():
+for each in [ g for g in patterns.strip().split() if not g.startswith("#") ]:
     names += glob.glob(each)
+print names
 
 for name in names:
     basename = os.path.splitext(os.path.split(name)[-1])[0]
