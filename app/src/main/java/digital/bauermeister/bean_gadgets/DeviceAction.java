@@ -8,15 +8,17 @@ import com.punchthrough.bean.sdk.message.BeanError;
 import com.punchthrough.bean.sdk.message.LedColor;
 import com.punchthrough.bean.sdk.message.ScratchBank;
 
+import de.greenrobot.event.EventBus;
+import digital.bauermeister.bean_gadgets.events.BeanChangedEvent;
+
 /**
- * Actions that can be performed (by the user) on a device.
+ * Actions that can be performed (by the user) on a bean.
  */
 public class DeviceAction {
 
     private static final String TAG = "DeviceAction";
     private static final int DELAY_DISCONNECT = 1 * 1000;
 
-    private final DeviceActionHandler handler;
     private final Context context;
 
     private final ConnectedAction onAction = new ConnectedAction() {
@@ -37,9 +39,8 @@ public class DeviceAction {
         }
     };
 
-    public DeviceAction(Context context, DeviceActionHandler handler) {
+    public DeviceAction(Context context) {
         this.context = context;
-        this.handler = handler;
     }
 
     public void doOnAction(Device device) {
@@ -64,7 +65,7 @@ public class DeviceAction {
         } else {
             Log2.i(TAG, "Connecting to " + device.getName() + "...");
             MyBeanListener beanListener = new MyBeanListener(device, bean, action);
-            handler.onChangeState(bean);
+            signalBeanChanged(bean);
             try {
                 bean.connect(context, beanListener);
             } catch (Exception e) {
@@ -73,10 +74,8 @@ public class DeviceAction {
         }
     }
 
-    public interface DeviceActionHandler {
-        void onChangeState(Bean bean);
-
-        void onChangeList();
+    private void signalBeanChanged(Bean bean) {
+        EventBus.getDefault().post(new BeanChangedEvent(bean));
     }
 
     private interface ConnectedAction {
@@ -100,20 +99,20 @@ public class DeviceAction {
         public void onConnected() {
             Log2.i(TAG, "Connected to " + name + ".");
             device.setError(null);
-            handler.onChangeState(bean);
+            signalBeanChanged(bean);
             action.doAction(bean, device);
         }
 
         @Override
         public void onConnectionFailed() {
             Log2.i(TAG, "Connection to " + name + " failed.");
-            handler.onChangeState(bean);
+            signalBeanChanged(bean);
         }
 
         @Override
         public void onDisconnected() {
             Log2.i(TAG, "Disconnected from " + name + ".");
-            handler.onChangeState(bean);
+            signalBeanChanged(bean);
         }
 
         @Override
@@ -129,5 +128,4 @@ public class DeviceAction {
         }
     }
 
-    ;
 }

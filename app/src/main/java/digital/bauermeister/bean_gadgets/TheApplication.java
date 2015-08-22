@@ -4,16 +4,15 @@ import android.app.Application;
 import android.content.Intent;
 
 /**
- * Created by pascal on 7/22/15.
+ * Here goes the app's initializations.
  * <p/>
- * Here goes the initializations.
+ * Created by pascal on 7/22/15.
  */
 public class TheApplication extends Application {
     public void onCreate() {
         super.onCreate();
-
-        startService(new Intent(this, TheService.class));
-
+        BluetoothHandler.INSTANCE.init(this);
         DeviceDatabase.INSTANCE.init(this); // init devices database
+        startService(new Intent(this, TheService.class));
     }
 }

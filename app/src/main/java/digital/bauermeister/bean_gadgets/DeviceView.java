@@ -16,11 +16,12 @@ import android.widget.TextView;
 import com.punchthrough.bean.sdk.Bean;
 
 import de.greenrobot.event.EventBus;
+import digital.bauermeister.bean_gadgets.events.BeanChangedEvent;
 
 /**
- * Created by pascal on 7/26/15.
- * <p/>
  * Manages the visual representation of a device.
+ * <p/>
+ * Created by pascal on 7/26/15.
  */
 public class DeviceView extends FrameLayout {
     private static final String TAG = "DeviceView";
@@ -145,10 +146,11 @@ public class DeviceView extends FrameLayout {
         // TODO: figure out RSSI and update it
     }
 
-    public void onEventMainThread(Bean event) {
-        if (bdAddress.equals(event.getDevice().getAddress())) {
+    public void onEventMainThread(BeanChangedEvent event) {
+        Log.d(TAG, "--> Bean");
+        if (bdAddress.equals(event.bean.getDevice().getAddress())) {
             Log.d(TAG, "-EVENT FOR ME- " + event);
-            updateState(event);
+            updateState(event.bean);
         }
     }
 

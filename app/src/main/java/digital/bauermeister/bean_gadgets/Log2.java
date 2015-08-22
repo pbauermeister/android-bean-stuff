@@ -9,9 +9,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Created by pascal on 7/26/15.
- * <p/>
  * Logging facility, feeding both the system logs, and the log panel.
+ * <p/>
+ * Created by pascal on 7/26/15.
  */
 public class Log2 {
     private static TextView summaryTv;

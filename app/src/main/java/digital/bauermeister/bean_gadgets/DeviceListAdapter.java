@@ -9,7 +9,6 @@ import android.widget.ListAdapter;
 
 import com.punchthrough.bean.sdk.Bean;
 
-import de.greenrobot.event.EventBus;
 import io.realm.RealmBaseAdapter;
 import io.realm.RealmResults;
 
@@ -24,17 +23,7 @@ public class DeviceListAdapter extends RealmBaseAdapter<Device> implements ListA
 
     public DeviceListAdapter(Activity activity) {
         super(activity, getList(), true);
-        deviceAction = new DeviceAction(activity, new DeviceAction.DeviceActionHandler() {
-            @Override
-            public void onChangeState(Bean bean) {
-                EventBus.getDefault().post(bean);
-            }
-
-            @Override
-            public void onChangeList() {
-                notifyDataSetChanged();
-            }
-        });
+        deviceAction = new DeviceAction(activity);
     }
 
     public static RealmResults<Device> getList() {
