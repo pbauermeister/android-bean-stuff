@@ -144,6 +144,14 @@ public enum BluetoothHandler implements BeanDiscoveryListener {
         delayedRun(btOn ? 0 : DELAY_AFTER_BT_ON, new Runnable() {
             @Override
             public void run() {
+                BeanManager.getInstance().cancelDiscovery();
+                // TDOD check if SDK bug
+                // maybe SDK bug? have to disconnect all devices, otherwise connected beans
+                // are not re-discovered and their old Bean objects are unusable,
+                for (Bean bean : BeanManager.getInstance().getBeans()) {
+                    bean.disconnect();
+                }
+                // scan now
                 BeanManager.getInstance().startDiscovery(BluetoothHandler.this);
             }
         });
@@ -194,6 +202,7 @@ public enum BluetoothHandler implements BeanDiscoveryListener {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                // TDOD check if SDK bug: SDK works only in UI thread
                 // If the LightBlue SDK would run in the BG thread, we could just call:
                 //   job.run();
                 // Instead, we have to hav it run in the UI, thread, which is very easy
