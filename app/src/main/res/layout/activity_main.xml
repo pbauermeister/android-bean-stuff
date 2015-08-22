@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="bottom"
+    sothree:umanoAnchorPoint="0.5"
     sothree:umanoPanelHeight="42dp"
     sothree:umanoParalaxOffset="100dp"
     sothree:umanoShadowHeight="10dp">
@@ -33,8 +34,8 @@
             android:id="@+id/emptyTv"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:text="@string/label_no_device"
-            android:gravity="center" />
+            android:gravity="center"
+            android:text="@string/label_no_device" />
 
     </LinearLayout>
 

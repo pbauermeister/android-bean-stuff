@@ -5,7 +5,7 @@ android {
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        applicationId "digital.bauermeister.bean_stuff"
+        applicationId "digital.bauermeister.bean_gadgets"
         minSdkVersion 21
         targetSdkVersion 22
         versionCode 1
@@ -25,4 +25,5 @@ dependencies {
     compile "com.android.support:appcompat-v7:22.0.+"
     compile 'io.realm:realm-android:0.81.1'
     compile project(':AndroidSlidingUpPanel/library')
+    compile 'de.greenrobot:eventbus:2.4.0'
 }
