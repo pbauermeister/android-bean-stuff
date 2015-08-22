@@ -126,6 +126,7 @@ public class MainActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         this.menu = menu;
+        setMenusState(BluetoothHandler.INSTANCE.isScanning(), BluetoothHandler.INSTANCE.isResetting());
         return true;
     }
 
@@ -170,8 +171,8 @@ public class MainActivity extends Activity {
     }
 
     private void startScan() {
-        if (BluetoothHandler.INSTANCE.isScanning()) {
-            Log.d(TAG, "Already scanning");
+        if (BluetoothHandler.INSTANCE.isScanning() || BluetoothHandler.INSTANCE.isResetting()) {
+            Log.d(TAG, "Cannot scan now");
             return;
         }
 
@@ -199,23 +200,28 @@ public class MainActivity extends Activity {
         setMenusState(BluetoothHandler.INSTANCE.isScanning(), BluetoothHandler.INSTANCE.isResetting());
     }
 
-
+    /*
+     * Menu states
+     */
     private void setScanMenuState(boolean enabled, boolean scanning) {
-        menu.findItem(R.id.action_bt_scan).setEnabled(enabled && !scanning);
+        MenuItem item = menu.findItem(R.id.action_bt_scan);
+        item.setEnabled(enabled && !scanning);
         if (scanning) {
-            menu.findItem(R.id.action_bt_scan).setIcon(R.drawable.ic_bt_scanning);
-            ((AnimationDrawable) menu.findItem(R.id.action_bt_scan).getIcon()).start();
+            if (item.getIcon() instanceof AnimationDrawable)
+                ((AnimationDrawable) item.getIcon()).stop();
+            item.setIcon(R.drawable.ic_bt_scanning);
+            ((AnimationDrawable) item.getIcon()).start();
         } else if (!enabled) {
-            menu.findItem(R.id.action_bt_scan).setIcon(R.mipmap.ic_bt_scan_disabled_48px);
+            item.setIcon(R.mipmap.ic_bt_scan_disabled_48px);
         } else {
-            menu.findItem(R.id.action_bt_scan).setIcon(R.mipmap.ic_bt_scan_48px);
+            item.setIcon(R.mipmap.ic_bt_scan_48px);
         }
     }
 
     private void setResetMenuState(boolean enabled) {
-        menu.findItem(R.id.action_bt_reset).setEnabled(enabled);
-        menu.findItem(R.id.action_bt_reset).setIcon(
-                enabled ? R.mipmap.ic_bt_reset_48px : R.mipmap.ic_bt_reset_disabled_48px);
+        MenuItem item = menu.findItem(R.id.action_bt_reset);
+        item.setEnabled(enabled);
+        item.setIcon(enabled ? R.mipmap.ic_bt_reset_48px : R.mipmap.ic_bt_reset_disabled_48px);
     }
 
     private void setMenusState(boolean scanning, boolean resetting) {
