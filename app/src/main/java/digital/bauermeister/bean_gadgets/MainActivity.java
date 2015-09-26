@@ -152,7 +152,7 @@ public class MainActivity extends Activity {
 
             case R.id.action_about:
                 Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse("https://github.com/pbauermeister/android-bean-stuff"));
+                i.setData(Uri.parse(AppConfig.HELP_URL));
                 startActivity(i);
                 return true;
         }

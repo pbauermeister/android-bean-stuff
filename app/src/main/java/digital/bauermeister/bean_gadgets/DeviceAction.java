@@ -17,7 +17,6 @@ import digital.bauermeister.bean_gadgets.events.BeanChangedEvent;
 public class DeviceAction {
 
     private static final String TAG = "DeviceAction";
-    private static final int DELAY_DISCONNECT = 1 * 1000;
 
     private final Context context;
 

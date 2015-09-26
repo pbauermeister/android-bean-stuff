@@ -28,9 +28,7 @@ public class TheApplication extends Application {
                 new BroadcastReceiver() {
                     @Override
                     public void onReceive(Context context, Intent intent) {
-                        if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
-                            EventBus.getDefault().post(new DisconnectAllRequestEvent());
-                        }
+                        EventBus.getDefault().post(new DisconnectAllRequestEvent());
                     }
                 },
                 new IntentFilter(Intent.ACTION_SCREEN_OFF));

@@ -37,8 +37,6 @@ public enum BluetoothHandler implements BeanDiscoveryListener {
     INSTANCE;
 
     private static final String TAG = "BackgroundHandler";
-    private static final int DELAY_AFTER_BT_ON = 2 * 1000;
-    private static final int DELAY_AFTER_BT_OFF = 2 * 1000;
     private boolean scanning;
     private boolean resetting;
     private BluetoothAdapter bluetoothAdapter;
@@ -142,7 +140,7 @@ public enum BluetoothHandler implements BeanDiscoveryListener {
         if (!btOn)
             bluetoothAdapter.enable();
 
-        delayedRun(btOn ? 0 : DELAY_AFTER_BT_ON, new Runnable() {
+        delayedRun(btOn ? 0 : AppConfig.DELAY_AFTER_BT_ON, new Runnable() {
             @Override
             public void run() {
                 BeanManager.getInstance().cancelDiscovery();
@@ -175,11 +173,11 @@ public enum BluetoothHandler implements BeanDiscoveryListener {
         scanning = false;
         resetting = true;
 
-        delayedRun(DELAY_AFTER_BT_OFF, new Runnable() {
+        delayedRun(AppConfig.DELAY_AFTER_BT_OFF, new Runnable() {
             @Override
             public void run() {
                 bluetoothAdapter.enable();
-                delayedRun(DELAY_AFTER_BT_ON, new Runnable() {
+                delayedRun(AppConfig.DELAY_AFTER_BT_ON, new Runnable() {
                     @Override
                     public void run() {
                         resetting = false;
