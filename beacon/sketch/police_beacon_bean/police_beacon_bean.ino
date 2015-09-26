@@ -1,36 +1,31 @@
-/* CopyLedToPin1.ino
-** 
-** LightBlueBean sketch to drive pin 1 according to LED red value.
-** Pin 1 is supposed to drive a load (beacon motor).
-** LED is supposed to be driven by a phone.
+/* police_beacon_bean.ino
 **
-** Also, if the bean is shaken, the LED red value and the load are
-** turned off.
-** 
 ** (C) 2015 by Pascal Bauermeister.
+**
+** LightBlueBean sketch to drive pin 1 according to LED red value.
+** - Pin 1 is supposed to drive a load (beacon motor).
+** - LED is supposed to be driven by a phone.
+**
+** Also, if the bean is shaken, the LED red value and hence the load
+** are turned off.
 **
 ** Code:    https://github.com/pbauermeister/android-bean-stuff
 ** Project: http://www.instructables.com/id/bluetooth-police-beacon
 */
 
-#define PIN 1  // Pin driving MOSFET
-
-#define SHAKE_THRESH  20
+#define PIN 1             // pin driving MOSFET (beacon motor)
+#define SHAKE_THRESH  20  // acceleration diff between two samplings
 
 /////////////////////////////////////////////////////////////////////////
 // ACCELERATION VECTOR CLASS
 /////////////////////////////////////////////////////////////////////////
 
-class Vector {
-public:
+struct Vector {
   int16_t x, y, z;
   void reset();
   int isSet();
   void copyFrom(Vector &other);
   void initFromSensor();
-
-private:
-  int16_t convertToMg(int16_t rawAcceleration, uint8_t sensitivity);
 };
 
 void Vector::reset() {
@@ -48,17 +43,25 @@ void Vector::copyFrom(Vector &other) {
 }
 
 void Vector::initFromSensor() {
-  AccelerationReading accel = Bean.getAcceleration();      
+  AccelerationReading accel = Bean.getAcceleration();
   x = accel.xAxis / 4;
   y = accel.yAxis / 4;
   z = accel.zAxis / 4;
+  // Note: the values lie between 0 and around 250. To convert to
+  // milli-g, please see:
+  // http://legacy.punchthrough.com/bean/the-arduino-reference/accelerationreading/
 };
+
+/////////////////////////////////////////////////////////////////////////
+// GLOBAL OBJECTS
+/////////////////////////////////////////////////////////////////////////
+
+static Vector last, current;
+static int cnt = 0; // counter to blip the LED
 
 /////////////////////////////////////////////////////////////////////////
 // HELPERS
 /////////////////////////////////////////////////////////////////////////
-
-Vector last, current;
 
 void handleAcceleration() {
   Bean.setLedGreen(255);    // blip LED.Green
@@ -81,8 +84,6 @@ void handleAcceleration() {
 /////////////////////////////////////////////////////////////////////////
 // ARDUINO LIFECYCLE
 /////////////////////////////////////////////////////////////////////////
-
-int cnt = 0; // counter to blip the LED
 
 void setup() {
     pinMode(PIN, OUTPUT);
